@@ -32,7 +32,7 @@ inspect eval rotating_maze/task.py@rotating_maze \
 
 ### Full Run (All Models, Both Variants)
 ```bash
-./run_rotating_maze.sh
+./scripts/run_rotating_maze.sh
 ```
 
 This will:
@@ -46,7 +46,7 @@ This will:
 
 If you've already run evals and just want to regenerate graphs:
 ```bash
-python generate_graphs.py
+python scripts/generate_graphs.py
 ```
 
 This creates:
@@ -68,10 +68,10 @@ results/
 ## Customizing
 
 ### Change models
-Edit `run_rotating_maze.sh` and modify the `MODELS` array.
+Edit `scripts/run_rotating_maze.sh` and modify the `MODELS` array.
 
 ### Change instance count
-Edit `NUM_INSTANCES` in `run_rotating_maze.sh` or use:
+Edit `NUM_INSTANCES` in `scripts/run_rotating_maze.sh` or use:
 ```bash
 inspect eval rotating_maze/task.py@rotating_maze \
     -T variant=stationary \

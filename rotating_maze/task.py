@@ -35,7 +35,7 @@ Legend:
 - P: Your current position
 - G: Goal
 - #: Wall (cannot pass)
-- .: Open path
+- (space): Open path
 
 Available actions: move_up, move_down, move_left, move_right
 - These move you relative to the current view

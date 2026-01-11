@@ -1,5 +1,9 @@
 """Quick test script for maze generation."""
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from rotating_maze.maze import generate_maze_instance
 
 # Test maze generation

@@ -70,7 +70,7 @@ inspect eval rotating_maze/task.py@rotating_maze \
 ### Using Run Scripts
 ```bash
 # Run comprehensive eval across multiple models
-./run_rotating_maze.sh
+./scripts/run_rotating_maze.sh
 ```
 
 ## Repository Structure
@@ -89,8 +89,10 @@ precursor-evals/
 │   └── README.md           # Eval-specific documentation
 ├── docs/
 │   └── plans/              # Design documents for evaluations
+├── scripts/                # Utility scripts (run evals, generate graphs)
+├── tests/                  # Test files
 ├── venv/                   # Python virtual environment
-├── project-overveiw.md     # Detailed project specification
+├── project-overview.md     # Detailed project specification
 └── questions.md            # Research questions and critiques
 ```
 
@@ -293,10 +295,10 @@ def move_up():
 ### Unit Testing Pattern
 ```bash
 # Test maze generation
-python test_maze.py
+python tests/test_maze.py
 
 # Test individual components
-python -m pytest my_eval/
+python -m pytest tests/
 ```
 
 ### Integration Testing
@@ -317,7 +319,7 @@ This project aims to:
 3. Increase precision of predictive GLMs
 4. Predict performance on SWE-bench, Cybench, and other consequential evals
 
-### Current Status (see project-overveiw.md for details)
+### Current Status (see project-overview.md for details)
 - Stage 2 of multi-stage research project
 - Several evals complete: A-not-B, Tower of Hanoi, MAB, Rotating Maze
 - Focus on construct validity over any single eval's difficulty

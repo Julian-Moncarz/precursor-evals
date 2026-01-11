@@ -29,30 +29,18 @@ class MazeGenerator:
         self.grid = [['#' for _ in range(self.width)] for _ in range(self.height)]
 
     def generate(self) -> Tuple[List[List[str]], Tuple[int, int], Tuple[int, int], int]:
-        """Generate a maze with random start and goal positions.
+        """Generate a maze with start at top-left and goal at bottom-right.
 
         Returns:
             Tuple of (grid, start_pos, goal_pos, optimal_path_length)
         """
-        # Start carving from a random odd position
+        # Start carving from top-left
         start_x, start_y = 1, 1
         self._carve_passages(start_x, start_y)
 
-        # Find all valid floor positions
-        floor_positions = []
-        for y in range(self.height):
-            for x in range(self.width):
-                if self.grid[y][x] == '.':
-                    floor_positions.append((x, y))
-
-        # Randomly select start and goal from floor positions
-        if len(floor_positions) < 2:
-            raise ValueError("Not enough floor positions for start and goal")
-
-        start_pos = random.choice(floor_positions)
-        # Remove start from available positions
-        floor_positions.remove(start_pos)
-        goal_pos = random.choice(floor_positions)
+        # Fixed positions: top-left for start, bottom-right for goal
+        start_pos = (1, 1)
+        goal_pos = (self.width - 2, self.height - 2)
 
         # Calculate optimal path length using BFS
         optimal_length = self._calculate_optimal_path(start_pos, goal_pos)
@@ -66,7 +54,7 @@ class MazeGenerator:
             x: Current x coordinate
             y: Current y coordinate
         """
-        self.grid[y][x] = '.'
+        self.grid[y][x] = ' '
 
         # Shuffle directions for randomness
         directions = [(0, -2), (0, 2), (-2, 0), (2, 0)]
@@ -79,7 +67,7 @@ class MazeGenerator:
             if (0 <= nx < self.width and 0 <= ny < self.height and
                 self.grid[ny][nx] == '#'):
                 # Carve the wall between current and new cell
-                self.grid[y + dy // 2][x + dx // 2] = '.'
+                self.grid[y + dy // 2][x + dx // 2] = ' '
                 self._carve_passages(nx, ny)
 
     def _calculate_optimal_path(self, start: Tuple[int, int], goal: Tuple[int, int]) -> int:

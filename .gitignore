@@ -58,3 +58,6 @@ test_output/
 
 # Inspect AI
 .inspect/
+
+# Generated files
+maze_example.json

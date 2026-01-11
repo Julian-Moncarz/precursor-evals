@@ -73,6 +73,8 @@ print(f"✅ Created {len(mock_results)} mock log files")
 
 # Run graph generation
 print("\n📊 Generating graphs from mock data...")
+import sys
+sys.path.insert(0, "scripts")
 import generate_graphs
 generate_graphs.main()
 

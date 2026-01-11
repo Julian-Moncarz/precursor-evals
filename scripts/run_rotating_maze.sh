@@ -27,10 +27,7 @@ mkdir -p results
 
 # Models to test
 MODELS=(
-    "anthropic/claude-3-5-sonnet-20241022"
-    "anthropic/claude-3-5-haiku-20241022"
     "openai/gpt-4o"
-    "openai/gpt-4o-mini"
 )
 
 # Number of instances
@@ -65,7 +62,7 @@ done
 echo ""
 echo "✅ Eval runs complete!"
 echo "📈 Generating graphs..."
-python generate_graphs.py
+python scripts/generate_graphs.py
 
 echo ""
 echo "✨ All done! Results in results/ directory"
