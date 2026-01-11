@@ -2,6 +2,14 @@
 
 # Script to run Rotating Maze eval on multiple models
 
+# Load .env file if it exists
+if [ -f .env ]; then
+    echo "📝 Loading environment variables from .env"
+    export $(cat .env | grep -v '^#' | xargs)
+else
+    echo "⚠️  No .env file found. Copy .env.example to .env and add your API keys."
+fi
+
 # Check if API keys are set
 if [ -z "$ANTHROPIC_API_KEY" ]; then
     echo "⚠️  ANTHROPIC_API_KEY not set"

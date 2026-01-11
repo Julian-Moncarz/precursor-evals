@@ -2,10 +2,10 @@
 
 ## Setup
 
-1. **Set up API keys** (add to your shell profile or `.env` file):
+1. **Set up API keys** - Copy `.env.example` to `.env` and add your keys:
    ```bash
-   export ANTHROPIC_API_KEY="your-key-here"
-   export OPENAI_API_KEY="your-key-here"
+   cp .env.example .env
+   # Edit .env and add your API keys
    ```
 
 2. **Activate virtual environment**:
