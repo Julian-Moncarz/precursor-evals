@@ -16,8 +16,8 @@ def create_movement_tools(state: MazeState):
 
     @tool
     def move_up():
+        """Move one step up in the current maze view."""
         async def execute():
-            """Move one step up in the current maze view."""
             # Translate visual "up" to actual coordinate change
             direction = state.translate_visual_to_actual("up")
 
@@ -44,8 +44,8 @@ def create_movement_tools(state: MazeState):
 
     @tool
     def move_down():
+        """Move one step down in the current maze view."""
         async def execute():
-            """Move one step down in the current maze view."""
             direction = state.translate_visual_to_actual("down")
 
             if not state.is_valid_move(direction):
@@ -68,8 +68,8 @@ def create_movement_tools(state: MazeState):
 
     @tool
     def move_left():
+        """Move one step left in the current maze view."""
         async def execute():
-            """Move one step left in the current maze view."""
             direction = state.translate_visual_to_actual("left")
 
             if not state.is_valid_move(direction):
@@ -92,8 +92,8 @@ def create_movement_tools(state: MazeState):
 
     @tool
     def move_right():
+        """Move one step right in the current maze view."""
         async def execute():
-            """Move one step right in the current maze view."""
             direction = state.translate_visual_to_actual("right")
 
             if not state.is_valid_move(direction):
