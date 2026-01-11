@@ -1,7 +1,7 @@
 """Movement tools for Rotating Maze eval."""
 
 from inspect_ai.tool import tool
-from .maze import MazeState
+from rotating_maze.maze import MazeState
 
 
 def create_movement_tools(state: MazeState):

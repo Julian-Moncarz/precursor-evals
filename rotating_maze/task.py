@@ -1,14 +1,22 @@
 """Rotating Maze evaluation task for Inspect AI."""
 
 import re
+import sys
+from pathlib import Path
+
+# Add parent directory to path for imports
+parent_dir = str(Path(__file__).parent.parent)
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
 from inspect_ai import Task, task
 from inspect_ai.dataset import Sample, MemoryDataset
 from inspect_ai.scorer import Score, Scorer, accuracy, mean, scorer
-from inspect_ai.solver import TaskState, generate, use_tools
+from inspect_ai.solver import TaskState, generate, use_tools, solver
 from inspect_ai.model import ChatMessageUser
 
-from .maze import generate_maze_instance, MazeState
-from .tools import create_movement_tools
+from rotating_maze.maze import generate_maze_instance, MazeState
+from rotating_maze.tools import create_movement_tools
 
 
 def create_system_message(variant: str) -> str:
@@ -152,45 +160,51 @@ def create_dataset(num_instances: int = 50, variant: str = "stationary") -> Memo
     return MemoryDataset(samples)
 
 
-async def maze_solver(state: TaskState, generate):
-    """Custom solver that manages maze state and tools.
+@solver
+def maze_solver():
+    """Create a maze solver instance."""
 
-    Args:
-        state: Current task state
-        generate: Generate function
+    async def solve(state: TaskState, generate):
+        """Custom solver that manages maze state and tools.
 
-    Returns:
-        Updated task state
-    """
-    # Create MazeState from metadata
-    maze_state = MazeState(
-        grid=state.metadata["grid"],
-        start_pos=tuple(state.metadata["start_pos"]),
-        goal_pos=tuple(state.metadata["goal_pos"]),
-        optimal_path_length=state.metadata["optimal_path_length"],
-        max_steps=state.metadata["max_steps"],
-        variant=state.metadata["variant"]
-    )
+        Args:
+            state: Current task state
+            generate: Generate function
 
-    # Create tools bound to this maze state
-    tools = create_movement_tools(maze_state)
+        Returns:
+            Updated task state
+        """
+        # Create MazeState from metadata
+        maze_state = MazeState(
+            grid=state.metadata["grid"],
+            start_pos=tuple(state.metadata["start_pos"]),
+            goal_pos=tuple(state.metadata["goal_pos"]),
+            optimal_path_length=state.metadata["optimal_path_length"],
+            max_steps=state.metadata["max_steps"],
+            variant=state.metadata["variant"]
+        )
 
-    # Set tools in state
-    state.tools = tools
+        # Create tools bound to this maze state
+        tools = create_movement_tools(maze_state)
 
-    # Use generate with tools until terminal condition
-    max_iterations = state.metadata["max_steps"] + 10  # Safety margin
-    for _ in range(max_iterations):
-        state = await generate(state)
+        # Set tools in state
+        state.tools = tools
 
-        # Check if terminal condition reached
-        if state.messages and len(state.messages) > 0:
-            last_message = state.messages[-1]
-            if hasattr(last_message, 'text') and last_message.text:
-                if "Success!" in last_message.text or "Task failed" in last_message.text:
-                    break
+        # Use generate with tools until terminal condition
+        max_iterations = state.metadata["max_steps"] + 10  # Safety margin
+        for _ in range(max_iterations):
+            state = await generate(state)
 
-    return state
+            # Check if terminal condition reached
+            if state.messages and len(state.messages) > 0:
+                last_message = state.messages[-1]
+                if hasattr(last_message, 'text') and last_message.text:
+                    if "Success!" in last_message.text or "Task failed" in last_message.text:
+                        break
+
+        return state
+
+    return solve
 
 
 @task
@@ -211,7 +225,7 @@ def rotating_maze(variant: str = "stationary", num_instances: int = 50):
 
     return Task(
         dataset=dataset,
-        solver=[maze_solver],
+        solver=[maze_solver()],
         scorer=maze_scorer(),
         max_messages=300,  # Safety limit
     )
