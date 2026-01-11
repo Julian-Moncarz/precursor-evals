@@ -45,8 +45,16 @@ Thumbs.db
 
 # Logs
 *.log
+logs/
 
 # Test coverage
 .coverage
 htmlcov/
 .pytest_cache/
+
+# Results and outputs
+results/
+test_output/
+
+# Inspect AI
+.inspect/
