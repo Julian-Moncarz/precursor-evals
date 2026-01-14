@@ -16,8 +16,13 @@ def create_movement_tools(state: MazeState):
 
     @tool
     def move_up():
-        """Move one step up in the current maze view."""
-        async def execute():
+        async def execute() -> str:
+            """Move one step up in the current maze view.
+            
+            Navigate upward in the maze using the current visual orientation.
+            The maze may rotate or flip, but this tool always moves "up" from
+            the current perspective.
+            """
             # Translate visual "up" to actual coordinate change
             direction = state.translate_visual_to_actual("up")
 
@@ -44,8 +49,13 @@ def create_movement_tools(state: MazeState):
 
     @tool
     def move_down():
-        """Move one step down in the current maze view."""
-        async def execute():
+        async def execute() -> str:
+            """Move one step down in the current maze view.
+            
+            Navigate downward in the maze using the current visual orientation.
+            The maze may rotate or flip, but this tool always moves "down" from
+            the current perspective.
+            """
             direction = state.translate_visual_to_actual("down")
 
             if not state.is_valid_move(direction):
@@ -68,8 +78,13 @@ def create_movement_tools(state: MazeState):
 
     @tool
     def move_left():
-        """Move one step left in the current maze view."""
-        async def execute():
+        async def execute() -> str:
+            """Move one step left in the current maze view.
+            
+            Navigate leftward in the maze using the current visual orientation.
+            The maze may rotate or flip, but this tool always moves "left" from
+            the current perspective.
+            """
             direction = state.translate_visual_to_actual("left")
 
             if not state.is_valid_move(direction):
@@ -92,8 +107,13 @@ def create_movement_tools(state: MazeState):
 
     @tool
     def move_right():
-        """Move one step right in the current maze view."""
-        async def execute():
+        async def execute() -> str:
+            """Move one step right in the current maze view.
+            
+            Navigate rightward in the maze using the current visual orientation.
+            The maze may rotate or flip, but this tool always moves "right" from
+            the current perspective.
+            """
             direction = state.translate_visual_to_actual("right")
 
             if not state.is_valid_move(direction):
